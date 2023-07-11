@@ -19,13 +19,13 @@ function authenticate()
         // O token é válido, continue com a execução da rota
       } catch (Exception $e) {
         http_response_code(401);
-        echo json_encode(['message' => 'Token inválido']);
+        echo json_encode(['message' => 'Invalid token']);
         exit;
       }
     }
   }
 
   http_response_code(401);
-  echo json_encode(['message' => 'Token não fornecido']);
+  echo json_encode(['message' => 'Token not found']);
   exit;
 }
