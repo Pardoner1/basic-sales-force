@@ -1,12 +1,12 @@
 <?php
 
 require_once './vendor/autoload.php';
+require_once 'config.php';
 
 use Firebase\JWT\JWT;
 
 function authenticate()
 {
-  $secret_Key  = "68V0zWFrS72GbpPreidkQFLfj4v9m3Ti+DXc8OB0gcM=";
   $headers = getallheaders();
   $authorizationHeader = $headers['Authorization'] ?? '';
 
@@ -15,7 +15,7 @@ function authenticate()
 
     if ($jwt) {
       try {
-        $decoded = JWT::decode($jwt, $secret_Key, ['HS256']);
+        $decoded = JWT::decode($jwt, SECRETKEY, ['HS256']);
         // O token é válido, continue com a execução da rota
       } catch (Exception $e) {
         http_response_code(401);

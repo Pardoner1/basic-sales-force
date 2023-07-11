@@ -2,6 +2,7 @@
 
 
 require_once './vendor/autoload.php';
+require_once './services/routes/config.php'
 
 use Firebase\JWT\JWT;
 
@@ -10,7 +11,6 @@ require_once './services/models/Auth.php';
 class AuthController
 {
   private $auth;
-  private $secret_Key  = "68V0zWFrS72GbpPreidkQFLfj4v9m3Ti+DXc8OB0gcM=";
 
   public function __construct($pdo)
   {
@@ -32,7 +32,7 @@ class AuthController
         'email' => $user['email'],
         'exp' => time() + 3600 // expiração em 1 hora
       ];
-      $jwt = JWT::encode($token, $this->secret_Key);
+      $jwt = JWT::encode($token, SECRETKEY);
 
       // Retorne o token como resposta
       echo json_encode(['token' => $jwt]);
