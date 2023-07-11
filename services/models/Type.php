@@ -1,7 +1,7 @@
 
 <?php
 
-class User
+class Type
 {
   private $conn;
 
@@ -10,43 +10,41 @@ class User
     $this->conn = $db;
   }
 
-  public function getAllUsers()
+  public function getAllTypes()
   {
-    $query = "SELECT * FROM users";
+    $query = "SELECT * FROM types";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getUserById($id)
+  public function getTypeById($id)
   {
-    $query = "SELECT * FROM users WHERE id = ?";
+    $query = "SELECT * FROM types WHERE id = ?";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $id);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function createUser($name, $email, $password)
+  public function createType($name, $tax)
   {
-    $query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+    $query = "INSERT INTO types (name, tax) VALUES (?, ?)";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $name);
-    $stmt->bindParam(2, $email);
-    $stmt->bindParam(3, password_hash($password, PASSWORD_DEFAULT));
+    $stmt->bindParam(2, $tax);
     if ($stmt->execute()) {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     return false;
   }
 
-  public function updateUser($id, $name, $email, $password)
+  public function updateType($id, $name, $tax)
   {
-    $query = "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?";
+    $query = "UPDATE types SET name = ?, tax = ? WHERE id = ?";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $name);
-    $stmt->bindParam(2, $email);
-    $stmt->bindParam(3, password_hash($password, PASSWORD_DEFAULT));
+    $stmt->bindParam(2, $tax);
     $stmt->bindParam(4, $id);
     if ($stmt->execute()) {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,9 +52,9 @@ class User
     return false;
   }
 
-  public function deleteUser($id)
+  public function deleteType($id)
   {
-    $query = "DELETE FROM users WHERE id = ?";
+    $query = "DELETE FROM types WHERE id = ?";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $id);
     if ($stmt->execute()) {

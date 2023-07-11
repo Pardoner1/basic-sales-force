@@ -1,7 +1,7 @@
 
 <?php
 
-class User
+class Sell
 {
   private $conn;
 
@@ -10,43 +10,41 @@ class User
     $this->conn = $db;
   }
 
-  public function getAllUsers()
+  public function getAllSells()
   {
-    $query = "SELECT * FROM users";
+    $query = "SELECT * FROM sells";
     $stmt = $this->conn->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getUserById($id)
+  public function getSellById($id)
   {
-    $query = "SELECT * FROM users WHERE id = ?";
+    $query = "SELECT * FROM sells WHERE id = ?";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $id);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function createUser($name, $email, $password)
+  public function createSell($products, $created_by)
   {
-    $query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+    $query = "INSERT INTO sells (products, created_by) VALUES (?, ?)";
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(1, $name);
-    $stmt->bindParam(2, $email);
-    $stmt->bindParam(3, password_hash($password, PASSWORD_DEFAULT));
+    $stmt->bindParam(1, $products);
+    $stmt->bindParam(2, $created_by);
     if ($stmt->execute()) {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     return false;
   }
 
-  public function updateUser($id, $name, $email, $password)
+  public function updateSell($id, $products, $created_by)
   {
-    $query = "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?";
+    $query = "UPDATE sells SET products = ?, created_by = ? WHERE id = ?";
     $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(1, $name);
-    $stmt->bindParam(2, $email);
-    $stmt->bindParam(3, password_hash($password, PASSWORD_DEFAULT));
+    $stmt->bindParam(1, $products);
+    $stmt->bindParam(2, $created_by);
     $stmt->bindParam(4, $id);
     if ($stmt->execute()) {
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,9 +52,9 @@ class User
     return false;
   }
 
-  public function deleteUser($id)
+  public function deleteSell($id)
   {
-    $query = "DELETE FROM users WHERE id = ?";
+    $query = "DELETE FROM sells WHERE id = ?";
     $stmt = $this->conn->prepare($query);
     $stmt->bindParam(1, $id);
     if ($stmt->execute()) {
